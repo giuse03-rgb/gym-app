@@ -2,8 +2,8 @@ import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 
 import { GenericResponseDto } from 'libs/common/dto/generic-response.dto';
-import { RegisterAuthRequestDto } from 'libs/common/dto/register.dto';
-import { AuthServiceGrpc } from 'libs/common/grpc/auth/auth.service.grpc';
+import { RegisterAuthRequestDto } from 'libs/common/dto/register-auth.request.dto';
+import { AuthServiceGrpc } from 'libs/common/grpc/auth.service.grpc';
 
 @Injectable()
 export class AuthService implements OnModuleInit {

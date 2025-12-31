@@ -3,7 +3,7 @@ import { ClientsModule } from '@nestjs/microservices';
 
 import 'dotenv/config';
 
-import { AUTH_GRPC_BASE_OPTIONS } from 'libs/common/grpc/auth/auth.grpc.options';
+import { AUTH_GRPC_BASE_OPTIONS } from 'libs/common/grpc/auth.grpc.options';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
