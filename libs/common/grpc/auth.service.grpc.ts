@@ -1,5 +1,5 @@
 import { GenericResponseDto } from 'libs/common/dto/generic-response.dto';
-import { RegisterAuthRequestDto } from 'libs/common/dto/register.dto';
+import { RegisterAuthRequestDto } from 'libs/common/dto/register-auth.request.dto';
 
 export interface AuthServiceGrpc {
   register(dto: RegisterAuthRequestDto): Promise<GenericResponseDto>;
