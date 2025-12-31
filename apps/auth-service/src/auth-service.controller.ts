@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
-import { AuthServiceService } from './auth-service.service';
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
+
+import { GenericResponseDto } from 'libs/common/dto/generic-response.dto';
+import { RegisterAuthRequestDto } from 'libs/common/dto/register.dto';
+
+import { AuthService } from './auth.service';
 
 @Controller()
 export class AuthServiceController {
-  constructor(private readonly authServiceService: AuthServiceService) {}
+  constructor(private readonly authService: AuthService) {}
 
-  @Get()
-  getHello(): string {
-    return this.authServiceService.getHello();
+  @GrpcMethod('AuthService', 'Register')
+  public register(dto: RegisterAuthRequestDto): Promise<GenericResponseDto> {
+    return this.authService.register(dto);
   }
 }

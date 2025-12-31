@@ -1,8 +1,34 @@
 import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions } from '@nestjs/microservices';
+import { Logger, ValidationPipe } from '@nestjs/common';
+
 import { AuthServiceModule } from './auth-service.module';
+import { AUTH_GRPC_BASE_OPTIONS } from 'libs/common/grpc/auth/auth.grpc.options';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AuthServiceModule);
-  await app.listen(process.env.port ?? 3000);
+  const logger = new Logger('AuthServiceBootstrap');
+
+  const port: number = Number(process.env.AUTH_SERVICE_PORT);
+
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AuthServiceModule, {
+    transport: AUTH_GRPC_BASE_OPTIONS.transport,
+    options: {
+      package: AUTH_GRPC_BASE_OPTIONS.options.package,
+      protoPath: AUTH_GRPC_BASE_OPTIONS.options.protoPath,
+      url: `0.0.0.0:${port}`,
+    },
+  });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  await app.listen();
+
+  logger.log(`Auth service running on port ${port}`);
 }
 bootstrap();

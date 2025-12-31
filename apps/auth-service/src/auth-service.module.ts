@@ -1,10 +1,21 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { AuthServiceController } from './auth-service.controller';
-import { AuthServiceService } from './auth-service.service';
+import { AuthService } from './auth.service';
+import { DatabaseModule } from './database/database.module';
+import { AuthUser } from './auth.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot({
+        isGlobal: true
+    }),
+    DatabaseModule,
+    TypeOrmModule.forFeature([AuthUser]),
+  ],
   controllers: [AuthServiceController],
-  providers: [AuthServiceService],
+  providers: [AuthService],
 })
 export class AuthServiceModule {}
