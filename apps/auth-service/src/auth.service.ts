@@ -7,7 +7,7 @@ import { status as Status } from '@grpc/grpc-js';
 import { Repository } from 'typeorm';
 
 import { GenericResponseDto } from 'libs/common/dto/generic-response.dto';
-import { RegisterAuthRequestDto } from 'libs/common/dto/register.dto';
+import { RegisterAuthRequestDto } from 'libs/common/dto/register-auth.request.dto';
 
 import { AuthUser } from './auth.entity';
 

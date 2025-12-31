@@ -3,7 +3,7 @@ import { MicroserviceOptions } from '@nestjs/microservices';
 import { Logger, ValidationPipe } from '@nestjs/common';
 
 import { AuthServiceModule } from './auth-service.module';
-import { AUTH_GRPC_BASE_OPTIONS } from 'libs/common/grpc/auth/auth.grpc.options';
+import { AUTH_GRPC_BASE_OPTIONS } from 'libs/common/grpc/auth.grpc.options';
 
 async function bootstrap() {
   const logger = new Logger('AuthServiceBootstrap');
