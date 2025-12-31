@@ -9,6 +9,9 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./docker/init:/docker-entrypoint-initdb.d
+    ports:
+      - "${POSTGRES_PORT}:5432"
+      
   adminer:
     image: adminer
     restart: always
