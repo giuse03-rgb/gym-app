@@ -35,7 +35,6 @@ export class AuthService {
         message: 'User registered successfully',
       };
     } catch (error: any) {
-      this.logger.error(error);
 
       if (error.code === '23505') {
         throw new RpcException({
