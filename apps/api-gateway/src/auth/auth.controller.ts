@@ -3,6 +3,8 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { RegisterAuthRequestDto } from 'libs/common/dto/register-auth.request.dto';
 import { GenericResponseDto } from 'libs/common/dto/generic-response.dto';
+import { LoginAuthRequestDto } from 'libs/common/dto/login-auth.request.dto';
+import { LoginAuthResponseDto } from 'libs/common/dto/login-auth.response.dto';
 
 import { AuthService } from './auth.service';
 
@@ -31,5 +33,22 @@ export class AuthController {
   })
   public register(@Body() dto: RegisterAuthRequestDto): Promise<GenericResponseDto> {
     return this.authService.register(dto);
+  }
+
+  @Post('login')
+  @ApiOperation({
+    summary: 'Authenticate the user',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'User authenticated successfully',
+    type: LoginAuthResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Invalid credentials',
+  })
+  public login(@Body() dto: LoginAuthRequestDto): Promise<LoginAuthResponseDto> {
+    return this.authService.login(dto);
   }
 }

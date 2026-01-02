@@ -3,12 +3,22 @@ syntax = "proto3";
 package auth;
 
 service AuthService {
-  rpc Register (RegisterDto) returns (GenericResponseDto) {}
+  rpc Register (RegisterAuthRequestDto) returns (GenericResponseDto) {}
+  rpc Login (LoginAuthRequestDto) returns (LoginAuthResponseDto) {}
 }
 
-message RegisterDto {
+message RegisterAuthRequestDto {
   string username = 1;
   string password = 2;
+}
+
+message LoginAuthRequestDto {
+    string username = 1;
+    string password = 2;
+}
+
+message LoginAuthResponseDto {
+    string accessToken = 1;
 }
 
 message GenericResponseDto {
