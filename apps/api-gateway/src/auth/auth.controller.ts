@@ -2,7 +2,7 @@ import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { RegisterAuthRequestDto } from 'libs/common/dto/register-auth.request.dto';
-import { GenericResponseDto } from 'libs/common/dto/generic-response.dto';
+import { GenericResponseDto } from 'libs/common/dto/generic.response.dto';
 import { LoginAuthRequestDto } from 'libs/common/dto/login-auth.request.dto';
 import { LoginAuthResponseDto } from 'libs/common/dto/login-auth.response.dto';
 

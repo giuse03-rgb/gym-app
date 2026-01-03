@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 
-import { GenericResponseDto } from 'libs/common/dto/generic-response.dto';
+import { GenericResponseDto } from 'libs/common/dto/generic.response.dto';
 import { RegisterAuthRequestDto } from 'libs/common/dto/register-auth.request.dto';
 import { LoginAuthRequestDto } from 'libs/common/dto/login-auth.request.dto';
 import { LoginAuthResponseDto } from 'libs/common/dto/login-auth.response.dto';

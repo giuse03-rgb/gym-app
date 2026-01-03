@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { status as Status } from '@grpc/grpc-js';
 import { Repository } from 'typeorm';
 
-import { GenericResponseDto } from 'libs/common/dto/generic-response.dto';
+import { GenericResponseDto } from 'libs/common/dto/generic.response.dto';
 import { RegisterAuthRequestDto } from 'libs/common/dto/register-auth.request.dto';
 import { LoginAuthRequestDto } from 'libs/common/dto/login-auth.request.dto';
 import { LoginAuthResponseDto } from 'libs/common/dto/login-auth.response.dto';
