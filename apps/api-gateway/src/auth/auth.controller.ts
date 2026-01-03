@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { RegisterAuthRequestDto } from 'libs/common/dto/register-auth.request.dto';
@@ -7,12 +7,14 @@ import { LoginAuthRequestDto } from 'libs/common/dto/login-auth.request.dto';
 import { LoginAuthResponseDto } from 'libs/common/dto/login-auth.response.dto';
 
 import { AuthService } from './auth.service';
+import { JwtGuard } from '../guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @UseGuards(JwtGuard)
   @Post('register')
   @ApiOperation({
     summary: 'Register a new user',
