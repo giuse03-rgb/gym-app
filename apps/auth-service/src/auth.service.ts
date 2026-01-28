@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RpcException } from '@nestjs/microservices';
 import { JwtService } from '@nestjs/jwt';
@@ -11,20 +11,27 @@ import { GenericResponseDto } from 'libs/common/dto/generic.response.dto';
 import { RegisterAuthRequestDto } from 'libs/common/dto/register-auth.request.dto';
 import { LoginAuthRequestDto } from 'libs/common/dto/login-auth.request.dto';
 import { LoginAuthResponseDto } from 'libs/common/dto/login-auth.response.dto';
+import { JwtPayload } from 'libs/common/interfaces/jwt-payload';
+import { Role } from 'libs/common/enum/roles.enum';
 
 import { AuthUser } from './auth.entity';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements OnModuleInit {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     @InjectRepository(AuthUser) private readonly authUsersRepository: Repository<AuthUser>,
     private readonly jwtService: JwtService,
   ) {}
 
+  public async onModuleInit(): Promise<void> {
+    await this.boostrapAdmin();
+  }
+
   public async register(dto: RegisterAuthRequestDto): Promise<GenericResponseDto> {
     try {
-      const saltRounds: number = 10;
-      const hashedPassword: string = await bcrypt.hash(dto.password, saltRounds);
+      const hashedPassword: string = await bcrypt.hash(dto.password, 10);
 
       const authUser: AuthUser = this.authUsersRepository.create({
         ...dto,
@@ -71,10 +78,37 @@ export class AuthService {
       });
     }
 
-    const payload: Object = { id: user.id, username: user.username };
+    const payload: JwtPayload = { sub: user.id, role: user.role };
 
     return {
       accessToken: await this.jwtService.signAsync(payload),
     };
+  }
+
+  private async boostrapAdmin(): Promise<void> {
+    const username: string | undefined = process.env.BOOTSTRAP_ADMIN_USERNAME;
+    const password: string | undefined = process.env.BOOTSTRAP_ADMIN_PASSWORD;
+
+    if (!username || !password) {
+      return;
+    }
+
+    const existingAdmin: AuthUser | null = await this.authUsersRepository.findOneBy({ username });
+
+    if (existingAdmin) {
+      this.logger.warn('Boostrap admin already exists, skipping');
+      return;
+    }
+
+    const hashedPassword: string = await bcrypt.hash(password, 10);
+
+    const admin: AuthUser = this.authUsersRepository.create({
+      username,
+      password: hashedPassword,
+      role: Role.ADMIN,
+    });
+
+    await this.authUsersRepository.save(admin);
+    this.logger.log('Boostrap admin created successfully');
   }
 }

@@ -1,9 +1,24 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+import { Role } from 'libs/common/enum/roles.enum';
 
 @Entity()
 export class AuthUser {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.USER,
+  })
+  role: Role;
 
   @Column({ unique: true })
   username: string;
@@ -14,6 +29,6 @@ export class AuthUser {
   @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updated_at: Date;
 }
